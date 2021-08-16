@@ -19,6 +19,9 @@ return Roact.forwardRef(function(props, ref)
 
         Position = props.pos;
         Size = props.size or UDim2.fromScale(1, 1);
+        SizeConstraint = props.constraint or Enum.SizeConstraint.RelativeXY;
+
+        ClipsDescendants = props.clip;
 
         LayoutOrder = props.order;
         ZIndex = props.index;

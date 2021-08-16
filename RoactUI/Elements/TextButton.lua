@@ -10,26 +10,27 @@ return Roact.forwardRef(function(props, ref)
                                { radius = props.cornerRadius });
     end
 
-    return Roact.createElement("ImageButton", {
+    return Roact.createElement("TextButton", {
         AnchorPoint = props.anchor;
 
-        BackgroundColor3 = props.color or Color3.new(1, 1, 1);
-        BackgroundTransparency = props.trans;
+        BackgroundColor3 = props.bgColor or Color3.new(1, 1, 1);
+        BackgroundTransparency = props.trans or 1;
         BorderSizePixel = 0;
 
-        Position = props.pos;
-        Size = props.size or UDim2.fromScale(1, 1);
-        SizeConstraint = props.constraint;
+        Font = props.font or Enum.Font.FredokaOne;
 
-        HoverImage = props.hoverImage;
-        Image = props.image;
-        ImageTransparency = props.imageTrans or 1;
-        ImageColor3 = props.imageColor;
+        Position = props.pos;
+        Size = props.size;
+
+        Text = props.text;
+        TextColor3 = props.color or Color3.new(1, 1, 1);
+        TextSize = props.textSize;
+        TextScaled = props.textSize == nil;
+        TextXAlignment = props.alignment;
 
         LayoutOrder = props.order;
-        ZIndex = props.index;
+        ZIndex = props.index or 2;
 
         [Roact.Ref] = ref;
-        [Roact.Event.Activated] = props.activated or props.click;
     }, children)
 end)
