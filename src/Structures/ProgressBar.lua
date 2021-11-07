@@ -16,10 +16,10 @@ function ProgressBar:init(props)
 	self.motor:onStep(setBinding)
 end
 
-function ProgressBar:willUpdate(nextProps)
-	self.motor:setGoal(Flipper.Spring.new(nextProps.percent, {
-		frequency = nextProps.springFrequency or 2;
-		dampingRatio = nextProps.springDamping or 1;
+function ProgressBar:didUpdate(prevProps)
+	self.motor:setGoal(Flipper.Spring.new(self.props.percent, {
+		frequency = self.props.springFrequency or 2;
+		dampingRatio = self.props.springDamping or 1;
 	}))
 end
 

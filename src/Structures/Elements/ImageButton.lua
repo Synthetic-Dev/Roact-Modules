@@ -16,6 +16,8 @@ return Roact.forwardRef(function(props, ref)
 		Active = props.active;
 		AnchorPoint = props.anchor;
 
+		AutoButtonColor = props.autoColor;
+
 		BackgroundColor3 = props.color or Color3.new(1, 1, 1);
 		BackgroundTransparency = props.trans;
 		BorderSizePixel = 0;
@@ -34,5 +36,8 @@ return Roact.forwardRef(function(props, ref)
 
 		[Roact.Ref] = ref;
 		[Roact.Event.Activated] = props.activated or props.click;
+
+		[Roact.Event.InputBegan] = props.inputBegan or props.down;
+		[Roact.Event.InputEnded] = props.inputEnded or props.up;
 	}, children)
 end)

@@ -16,13 +16,6 @@ return Roact.forwardRef(function(props, ref)
 		LineJoinMode = Enum.LineJoinMode.Round;
 		Thickness = math.max(0, thickness);
 		Transparency = props.trans or 0;
-	}, {
-		-- Gradient = props.gradient and Roact.createElement("UIGradient", {
-		-- 	Transparency = props.gradient.trans;
-		-- 	Rotation = props.gradient.rotation;
-		-- 	Offset = props.gradient.offset;
-		-- 	Color = props.gradient.color;
-		-- })
 	})
 
 	return Roact.createElement(Frame, {

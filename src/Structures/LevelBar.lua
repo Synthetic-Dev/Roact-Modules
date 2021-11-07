@@ -1,6 +1,9 @@
 local TweenService = game:GetService("TweenService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
+local Knit = require(ReplicatedStorage.Knit)
+local Janitor = require(Knit.Util.Janitor)
+
 local Roact = require(ReplicatedStorage.Roact)
 local Flipper = require(ReplicatedStorage.Flipper)
 
@@ -15,24 +18,28 @@ function LevelBar:init(props)
 	local binding, setBinding = Roact.createBinding(self.motor:getValue())
 	self.binding = binding
 	self.motor:onStep(setBinding)
+
+	self.janitor = Janitor.new()
 end
 
-function LevelBar:willUpdate(nextProps)
-	local levelUp = nextProps.percent < self.props.percent
+function LevelBar:didUpdate(prevProps)
+	local levelUp = self.props.percent < prevProps.percent
 	if levelUp then
 		local connection
 		connection = self.motor:onComplete(function()
-			connection:Disconnect()
-			self.motor:setGoal(Flipper.Spring.new(nextProps.percent, {
-				frequency = nextProps.springFrequency or 5;
-				dampingRatio = nextProps.springDamping or 1;
+			connection:disconnect()
+			self.motor:setGoal(Flipper.Spring.new(self.props.percent, {
+				frequency = self.props.springFrequency or 5;
+				dampingRatio = self.props.springDamping or 1;
 			}))
 		end)
+
+		self.janitor:Add(connection, "disconnect")
 	end
 
-	self.motor:setGoal(Flipper.Spring.new(levelUp and 1 or nextProps.percent, {
-		frequency = nextProps.springFrequency or 3;
-		dampingRatio = nextProps.springDamping or 1;
+	self.motor:setGoal(Flipper.Spring.new(levelUp and 1 or self.props.percent, {
+		frequency = self.props.springFrequency or 3;
+		dampingRatio = self.props.springDamping or 1;
 	}))
 end
 
@@ -73,6 +80,10 @@ function LevelBar:render()
 		pos = self.props.pos;
 		anchor = self.props.anchor;
 	}, children)
+end
+
+function LevelBar:willUnmount()
+	self.janitor:Destroy()
 end
 
 return LevelBar
